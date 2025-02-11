@@ -1,0 +1,17 @@
+{
+  "urls": [
+    ["aiowebserver/__init__.py", "github:haum/micropython-aiowebserver/aiowebserver/__init__.py"],
+    ["aiowebserver/request.py", "github:haum/micropython-aiowebserver/aiowebserver/request.py"],
+    ["aiowebserver/router.py", "github:haum/micropython-aiowebserver/aiowebserver/router.py"],
+    ["aiowebserver/run.py", "github:haum/micropython-aiowebserver/aiowebserver/run.py"],
+    ["aiowebserver/server.py", "github:haum/micropython-aiowebserver/aiowebserver/server.py"],
+    ["aiowebserver/sse.py", "github:haum/micropython-aiowebserver/aiowebserver/sse.py"],
+    ["aiowebserver/static.py", "github:haum/micropython-aiowebserver/aiowebserver/static.py"],
+    ["aiowebserver/websocket.py", "github:haum/micropython-aiowebserver/aiowebserver/websocket.py"]
+  ],
+  "deps": [
+    ["asyncio", "latest"],
+    ["json", "latest"]
+  ],
+  "version": "0.1"
+}
