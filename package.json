@@ -9,9 +9,6 @@
     ["aiowebserver/static.py", "github:haum/micropython-aiowebserver/aiowebserver/static.py"],
     ["aiowebserver/websocket.py", "github:haum/micropython-aiowebserver/aiowebserver/websocket.py"]
   ],
-  "deps": [
-    ["asyncio", "latest"],
-    ["json", "latest"]
-  ],
+  "deps": [],
   "version": "0.1"
 }
