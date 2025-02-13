@@ -97,7 +97,7 @@ async def static_response(rq, path, directory='.', mimetypes=None):
             ctype += '; charset=utf-8'
 
         await rq.header('Content-Type', ctype)
-        await rq.header('ETag', etag)
+        await rq.header('ETag', '"{}"'.format(etag.decode()))
         await rq.header('Cache-Control', 'max-age=10, must-revalidate')
         await rq.header('Access-Control-Allow-Origin', '*')
         if gz: await rq.header('Content-Encoding', 'gzip')
