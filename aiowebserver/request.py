@@ -79,8 +79,8 @@ class Request:
         await self.return_status(301 if permanent else 302)
         await self.header('Location', url)
 
-    async def sendfile(self, path, directory='.', mimetypes=None, timestamp=None):
-        await static_response(self, path, directory, mimetypes, timestamp)
+    async def sendfile(self, path, directory='.', mimetypes=None):
+        await static_response(self, path, directory, mimetypes)
 
     async def return_status(self, n, txt=None):
         if self._header_step == 0:

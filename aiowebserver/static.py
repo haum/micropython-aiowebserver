@@ -60,7 +60,7 @@ def is_file(path):
     except OSError:
         return False
 
-async def static_response(rq, path, directory='.', mimetypes=None, timestamp=None):
+async def static_response(rq, path, directory='.', mimetypes=None):
     raw = True
     gz = False
     filepath = directory + '/' + simplify_path(path)
@@ -76,13 +76,13 @@ async def static_response(rq, path, directory='.', mimetypes=None, timestamp=Non
         raise Http404()
 
     async with static_lock:
-        etag = None
-        if timestamp:
-            etag = binascii.hexlify(hashlib.sha256(filepath + str(timestamp)).digest())
-            if rq.headers.get('if-none-match', '""')[1:-1].encode() == etag:
-                await rq.return_status(304)
-                await rq.w(None, True)
-                return
+        etag = binascii.hexlify(
+            hashlib.sha256(filepath + str(os.stat(filepath)[8])).digest()
+        )
+        if rq.headers.get('if-none-match', '""')[1:-1].encode() == etag:
+            await rq.return_status(304)
+            await rq.w(None, True)
+            return
         ext = path.split('.')[-1]
         ctype = 'application/octet-stream'
         if type(mimetypes) is str:
@@ -97,7 +97,7 @@ async def static_response(rq, path, directory='.', mimetypes=None, timestamp=Non
             ctype += '; charset=utf-8'
 
         await rq.header('Content-Type', ctype)
-        if etag: await rq.header('ETag', etag)
+        await rq.header('ETag', etag)
         await rq.header('Cache-Control', 'max-age=10, must-revalidate')
         await rq.header('Access-Control-Allow-Origin', '*')
         if gz: await rq.header('Content-Encoding', 'gzip')

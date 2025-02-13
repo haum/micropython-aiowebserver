@@ -75,7 +75,7 @@ be sent, for example to buffer messages cut in several small pieces.
 ### Static files
 
 It is possible to send static files with
-`rq.sendfile(path, directory, mimetypes, timestamp)`, with `path` the only
+`rq.sendfile(path, directory, mimetypes)`, with `path` the only
 mandatory parameter.
 
 `path` and `directory` give respectively the path and the directory in which to
@@ -87,17 +87,15 @@ dictionary is used in addition to this optional parameter. Using a string
 instead of a directory forces the mimetype without reading the default
 dictionary.
 
-If present, `timestamp` is used to calculate an ETAG based on this value and the
-path of the file. This ETAG is used by modern browsers to avoid downloading the
-file if they already have it in cache. It can be any string-convertible value,
-but the conversion should be different from the one used with old files
-versions. As a consequence, using the date of the last update can be a good
-idea, hence the name of the parameter.
-
 The function can send gzipped files. The path should be without the `.gz`
-extension. If the path is a directory, it will serve `index.htm` inside.
+extension, which would automatically be added by the function if the file
+without this extension does not exist. If the path is a directory, it will serve
+`index.htm` inside.
 
-The funcion uses a lock to avoid sending multiple files in parallell that could
+The function uses `os.stat` to compute an ETAG to avoid sending files that are
+already in the cache of the browser.
+
+The function uses a lock to avoid sending multiple files in parallel that could
 saturate the low RAM of the target.
 
 ### Returned status
